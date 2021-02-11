@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    env_file: ./database/.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-password}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-training_crab}
+    volumes:
+      - ./database/db_data:/data/db
+    ports:
+      - "27017:27017"
+    command: mongod --logpath=/dev/null --auth
+  service_training_crab:
+    container_name: service_training_crab
+    build:
+      context: ./service_training_crab
+      dockerfile: Dockerfile
+      target: "develop-stage"
+    ports:
+      - "127.0.0.1:8088:8088"
+    links:
+      - mongo
+      - mongo:database
+    volumes:
+      - ./service_training_crab:/app
+      - cargo-cache:/usr/local/cargo/registry
+      - target-cache:/app/target
+    command: /bin/sh -c "cargo watch -x run"
+volumes:
+  db_data:
+  cargo-cache:
+  target-cache:

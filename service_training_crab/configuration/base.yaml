@@ -1,0 +1,8 @@
+application:
+  port: 8088
+  host: 0.0.0.0
+database:
+  uri: "mongodb://mongo:27017/"
+  user: "root"
+  password: "password"
+  name: "training_crab"

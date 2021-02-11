@@ -1,0 +1,6 @@
+.idea/
+database/
+db_data/
+service_training_crab/.idea/
+service_training_crab/.env
+service_training_crab/target/

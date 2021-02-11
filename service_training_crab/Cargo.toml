@@ -1,0 +1,48 @@
+[package]
+name = "training_crab"
+version = "0.1.0"
+authors = ["barleytea <barleytea362@gmail.com>"]
+edition = "2018"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "training_crab"
+
+[dependencies]
+actix-web = "3.3.1"
+actix-rt = "1.1.1"
+actix-service = "1.0.0"
+config = { version = "0.10.1", default-features = false, features = ["yaml"] }
+env_logger = "0.8.2"
+log = "0.4.11"
+envy = "0.4"
+mongodb = "1.1.1"
+wither = { version = "0.9.0-alpha.2", features = ["tokio-runtime"], default-features = false }
+dotenv = "0.15.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+json = "0.12"
+alt_serde_derive = "1.0.104"
+async-trait = "0.1.42"
+handlebars="3.2.1"
+tracing = "0.1.19"
+tracing-futures = "0.2.4"
+tracing-subscriber = { version = "0.2.12", features = ["registry", "env-filter"] }
+tracing-bunyan-formatter = "0.1.6"
+tracing-log = "0.1.1"
+tracing-actix-web = "0.2.0"
+serde-aux = "1.0.1"
+tokio = "0.2.22"
+reqwest = { version = "0.10", default-features = false, features = ["json", "rustls-tls"] }
+
+[dev-dependencies]
+lazy_static = "1.4.0"
+claim = "0.4.0"
+quickcheck = "0.9.2"
+quickcheck_macros = "0.9.1"
+fake = "~2.3.0"
+wiremock = "0.4.7"
+serde_json = "1.0.61"
