@@ -14,6 +14,7 @@ pub struct TrainingMasterData {
     pub descriptions: String,
 }
 
+#[allow(clippy::async_yields_async)]
 #[tracing::instrument]
 pub async fn create_training_master(
     item: web::Json<TrainingMasterData>,
@@ -32,6 +33,7 @@ pub async fn create_training_master(
     }
 }
 
+#[allow(clippy::async_yields_async)]
 #[tracing::instrument]
 pub async fn find_training_master(
     query: web::Query<HashMap<String, String>>,
