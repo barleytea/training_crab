@@ -16,7 +16,7 @@ services:
   service_training_crab:
     container_name: service_training_crab
     build:
-      context: ./service_training_crab
+      context: ./
       dockerfile: Dockerfile
       target: "develop-stage"
     ports:
@@ -25,7 +25,7 @@ services:
       - mongo
       - mongo:database
     volumes:
-      - ./service_training_crab:/app
+      - ./:/app
       - cargo-cache:/usr/local/cargo/registry
       - target-cache:/app/target
     command: /bin/sh -c "cargo watch -x run"
