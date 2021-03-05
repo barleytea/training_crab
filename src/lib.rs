@@ -9,3 +9,4 @@ pub mod controllers;
 pub mod models;
 pub mod startup;
 pub mod telemetry;
+pub mod firebase;
