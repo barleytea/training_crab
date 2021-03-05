@@ -1,12 +1,11 @@
 use crate::configuration::FirebaseConfig;
 use crate::firebase;
-
-pub static FIREBASE_AUTHENTICATION_AUDIENCE: &str =
-    "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit";
+use actix_web::web;
+use std::sync::Arc;
 
 pub async fn verify_id_token(
     token: &str,
+    firebase_config: web::Data<Arc<FirebaseConfig>>,
 ) -> Result<jsonwebtoken::TokenData<firebase::admin::jwt::Claims>, jsonwebtoken::errors::Error> {
-    let firebase_config = FirebaseConfig::new();
     firebase::admin::jwt::verify(token, &firebase_config).await
 }

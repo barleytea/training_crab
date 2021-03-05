@@ -1,6 +1,6 @@
+use crate::configuration::FirebaseConfig;
 use jsonwebtoken::{decode_header, Algorithm, DecodingKey, Validation};
 use serde::{Deserialize, Serialize};
-use crate::configuration::FirebaseConfig;
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -58,7 +58,9 @@ struct KeysResponse {
     keys: Vec<JWK>,
 }
 
-pub async fn get_firebase_jwks(firebase_config: &FirebaseConfig) -> Result<HashMap<String, JWK>, reqwest::Error> {
+pub async fn get_firebase_jwks(
+    firebase_config: &FirebaseConfig,
+) -> Result<HashMap<String, JWK>, reqwest::Error> {
     let mut key_map = HashMap::new();
     let url =
         "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com";
@@ -69,8 +71,14 @@ pub async fn get_firebase_jwks(firebase_config: &FirebaseConfig) -> Result<HashM
 
     println!("client mail: {}", &firebase_config.client_email);
 
-    let url_client_email = format!("https://www.googleapis.com/service_accounts/v1/jwk/{}", &firebase_config.client_email);
-    let resp_client_email = reqwest::get(&url_client_email).await?.json::<KeysResponse>().await?;
+    let url_client_email = format!(
+        "https://www.googleapis.com/service_accounts/v1/jwk/{}",
+        &firebase_config.client_email
+    );
+    let resp_client_email = reqwest::get(&url_client_email)
+        .await?
+        .json::<KeysResponse>()
+        .await?;
     for key in resp_client_email.keys {
         key_map.insert(key.kid.clone(), key);
     }

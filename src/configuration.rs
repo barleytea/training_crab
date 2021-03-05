@@ -9,6 +9,7 @@ use std::io::BufReader;
 pub struct Settings {
     pub database: DatabaseSettings,
     pub application: ApplicationSettings,
+    pub firebase: FirebaseSettings,
 }
 
 #[derive(serde::Deserialize)]
@@ -50,12 +51,17 @@ pub struct FirebaseConfig {
 }
 
 impl FirebaseConfig {
-    pub fn new() -> FirebaseConfig {
-        let file = File::open("credentials/develop/training-crab-develop-firebase-adminsdk-coq0m-c0ae159022.json").unwrap();
+    pub fn new(path: &str) -> FirebaseConfig {
+        let file = File::open(path).unwrap();
         let reader = BufReader::new(file);
         let config: FirebaseConfig = serde_json::from_reader(reader).unwrap();
         config
     }
+}
+
+#[derive(serde::Deserialize)]
+pub struct FirebaseSettings {
+    pub secret_path: String,
 }
 
 pub fn get_configurations() -> Result<Settings, config::ConfigError> {
