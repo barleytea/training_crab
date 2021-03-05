@@ -30,8 +30,8 @@ async fn spawn_app() -> TestApp {
     let configuration = get_configurations().expect("Failed to read configuration.");
     let database = configuration.database.db().await.unwrap();
     let firebase_secret_path = configuration.firebase.secret_path;
-    let server = run(listener, database.clone(), firebase_secret_path)
-        .expect("Failed to bind address");
+    let server =
+        run(listener, database.clone(), firebase_secret_path).expect("Failed to bind address");
     let _ = tokio::spawn(server);
     TestApp { address, database }
 }
