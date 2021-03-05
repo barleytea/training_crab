@@ -2,3 +2,5 @@
 database/
 db_data/
 target/
+credentials/
+configuration/

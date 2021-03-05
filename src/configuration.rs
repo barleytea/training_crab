@@ -2,11 +2,14 @@ use mongodb::options::{ClientOptions, Credential};
 use mongodb::{Client, Database};
 use serde_aux::field_attributes::deserialize_number_from_string;
 use std::convert::{TryFrom, TryInto};
+use std::fs::File;
+use std::io::BufReader;
 
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
     pub application: ApplicationSettings,
+    pub firebase: FirebaseSettings,
 }
 
 #[derive(serde::Deserialize)]
@@ -36,6 +39,29 @@ impl DatabaseSettings {
         let database: Database = Client::with_options(client_options)?.database(&self.name);
         Ok(database)
     }
+}
+
+#[derive(Clone, Debug, serde::Deserialize)]
+pub struct FirebaseConfig {
+    pub project_id: String,
+    pub private_key_id: String,
+    pub private_key: String,
+    pub client_email: String,
+    pub client_id: String,
+}
+
+impl FirebaseConfig {
+    pub fn new(path: &str) -> FirebaseConfig {
+        let file = File::open(path).unwrap();
+        let reader = BufReader::new(file);
+        let config: FirebaseConfig = serde_json::from_reader(reader).unwrap();
+        config
+    }
+}
+
+#[derive(serde::Deserialize)]
+pub struct FirebaseSettings {
+    pub secret_path: String,
 }
 
 pub fn get_configurations() -> Result<Settings, config::ConfigError> {

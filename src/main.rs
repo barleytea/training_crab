@@ -16,6 +16,7 @@ async fn main() -> std::io::Result<()> {
         configuration.application.host, configuration.application.port
     );
     let listener = TcpListener::bind(address)?;
-    run(listener, database)?.await?;
+    let firebase_secret_path = configuration.firebase.secret_path;
+    run(listener, database, firebase_secret_path)?.await?;
     Ok(())
 }

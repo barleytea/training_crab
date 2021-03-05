@@ -6,6 +6,7 @@ extern crate wither;
 
 pub mod configuration;
 pub mod controllers;
+pub mod firebase;
 pub mod models;
 pub mod startup;
 pub mod telemetry;
