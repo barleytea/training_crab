@@ -18,7 +18,7 @@ pub struct TestApp {
 }
 
 async fn spawn_app() -> TestApp {
-    // The first time `initialize` is invoked the code in `TRACING` is executed.
+    // The first time 'initialize is invoked the code in 'TRACING' is executed.
     // All other invocations will instead skip execution.
     lazy_static::initialize(&TRACING);
 
@@ -29,8 +29,9 @@ async fn spawn_app() -> TestApp {
 
     let configuration = get_configurations().expect("Failed to read configuration.");
     let database = configuration.database.db().await.unwrap();
-
-    let server = run(listener, database.clone()).expect("Failed to bind address");
+    let firebase_secret_path = configuration.firebase.secret_path;
+    let server = run(listener, database.clone(), firebase_secret_path.clone())
+        .expect("Failed to bind address");
     let _ = tokio::spawn(server);
     TestApp { address, database }
 }
@@ -50,6 +51,6 @@ async fn health_check_works() {
         .expect("Failed to execute request.");
 
     // Assert
-    assert!(response.status().is_success());
+    assert!(response.status().is_client_error());
     assert_eq!(Some(0), response.content_length());
 }
