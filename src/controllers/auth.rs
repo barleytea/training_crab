@@ -14,11 +14,11 @@ pub async fn validate(
 ) -> Result<ServiceRequest, Error> {
     let config: Config = req
         .app_data::<Config>()
-        .map(|data| data.clone())
+        .cloned()
         .unwrap_or_else(Default::default);
     let firebase_config = req
         .app_data::<web::Data<Arc<FirebaseConfig>>>()
-        .map(|data| data.clone())
+        .cloned()
         .unwrap();
     match verify_id_token(credentials.token(), firebase_config).await {
         Ok(_res) => Ok(req),
