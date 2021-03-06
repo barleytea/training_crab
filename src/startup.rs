@@ -1,9 +1,9 @@
 use crate::configuration::FirebaseConfig;
-use crate::controllers::users::create_user;
 use crate::controllers::{
     auth::validate,
     health_check::health_check,
     training_masters::{create_training_master, find_training_master},
+    users::{create_user, find_user},
 };
 use actix_web::dev::Server;
 use actix_web::web::Data;
@@ -29,6 +29,7 @@ pub fn run(
             .data(web::JsonConfig::default().limit(4096))
             .route("/health_check", web::get().to(health_check))
             .route("/user", web::post().to(create_user))
+            .route("/user", web::get().to(find_user))
             .route("/training_master", web::post().to(create_training_master))
             .route("/training_master", web::get().to(find_training_master))
             .app_data(database.clone())

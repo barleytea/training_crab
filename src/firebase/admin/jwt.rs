@@ -39,9 +39,7 @@ pub async fn verify(
     validation.set_audience(&[project_id]);
 
     let key = DecodingKey::from_rsa_components(&jwk.n, &jwk.e);
-    let decoded_token = jsonwebtoken::decode::<Claims>(token, &key, &validation);
-    println!("decoded_token: {:?}", decoded_token);
-    decoded_token
+    jsonwebtoken::decode::<Claims>(token, &key, &validation)
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq)]
@@ -68,8 +66,6 @@ pub async fn get_firebase_jwks(
     for key in resp.keys {
         key_map.insert(key.kid.clone(), key);
     }
-
-    println!("client mail: {}", &firebase_config.client_email);
 
     let url_client_email = format!(
         "https://www.googleapis.com/service_accounts/v1/jwk/{}",
