@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: circleci/rust:1.49.0
+      - image: circleci/rust:1.51.0
     working_directory: ~/app
 
 commands:
@@ -81,6 +81,6 @@ workflows:
       - lint
       - test:
           name: MSRV (Minimum Supported Rust Version)
-          rust_version: 1.49.0
+          rust_version: 1.51.0
       - test:
           name: Rust Version from `rust-toolchain`

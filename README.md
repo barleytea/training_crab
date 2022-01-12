@@ -19,9 +19,11 @@
 ├── credentials
 │   └── develop
 │       └── ${FIREBASE_APP_NAME}-firebase-adminsdk-xxxxx-xxxxxxxxxx.json <-
+├── database
+│   └── .env <-
 ```
 
-### 2. example base.yaml
+#### 2.1. example base.yaml
 
 ```
 application:
@@ -34,6 +36,13 @@ database:
   name: "${DATABASE_NAME}"
 firebase:
   secret_path: "credentials/develop/${FIREBASE_APP_NAME}-firebase-adminsdk-xxxxx-xxxxxxxxxx.json"
+```
+
+### 2.2 example database/.env
+```
+MONGO_INITDB_ROOT_USERNAME=${ROOT_USERNAME}
+MONGO_INITDB_ROOT_PASSWORD=${ROOT_PASSWORD}
+MONGO_INITDB_DATABASE=${DATABASE_NAME}
 ```
 
 ### 3. start server
