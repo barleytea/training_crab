@@ -43,7 +43,7 @@ pub async fn verify(
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq)]
-pub struct JWK {
+pub struct Jwk {
     pub e: String,
     pub alg: String,
     pub kty: String,
@@ -53,12 +53,12 @@ pub struct JWK {
 
 #[derive(Debug, Deserialize)]
 struct KeysResponse {
-    keys: Vec<JWK>,
+    keys: Vec<Jwk>,
 }
 
 pub async fn get_firebase_jwks(
     firebase_config: &FirebaseConfig,
-) -> Result<HashMap<String, JWK>, reqwest::Error> {
+) -> Result<HashMap<String, Jwk>, reqwest::Error> {
     let mut key_map = HashMap::new();
     let url =
         "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com";
